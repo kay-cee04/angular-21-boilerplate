@@ -8,5 +8,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('angular-21-boilerplate');
+  protected readonly title = signal('angular-frontend-lab-7');
 }
