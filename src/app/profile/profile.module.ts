@@ -19,6 +19,11 @@ import { UpdateComponent } from './update.component';
         LayoutComponent,
         DetailsComponent,
         UpdateComponent
+    ],
+    exports: [
+        LayoutComponent,
+        DetailsComponent,
+        UpdateComponent
     ]
 })
 export class ProfileModule { }

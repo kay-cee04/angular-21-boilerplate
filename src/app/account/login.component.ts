@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
                     const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
                     this.router.navigateByUrl(returnUrl);
                 },
-                error: error => {
+                error: (error: any) => {
                     setTimeout(() => {
                         this.alertService.error(error);
                         this.submitting = false;

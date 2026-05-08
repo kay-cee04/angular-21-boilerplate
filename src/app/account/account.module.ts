@@ -25,6 +25,14 @@ import { ResetPasswordComponent } from './reset-password.component';
         VerifyEmailComponent,
         ForgotPasswordComponent,
         ResetPasswordComponent
+    ],
+    exports: [
+        LayoutComponent,
+        LoginComponent,
+        RegisterComponent,
+        VerifyEmailComponent,
+        ForgotPasswordComponent,
+        ResetPasswordComponent
     ]
 })
 export class AccountModule { }
