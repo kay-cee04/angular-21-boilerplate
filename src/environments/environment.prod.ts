@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://node-mysql-api-production-a4fe.up.railway.app'
+  apiUrl: 'https://node-mysql-api-zfzj.onrender.com'  // ← Your new backend URL
 };
