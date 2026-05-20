@@ -1,24 +1,30 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from './_helpers';
-import { Role } from './_models';
-import { HomeComponent } from './home/home.component';
+
+import { LayoutComponent } from './layout.component';
+import { LoginComponent } from './login.component';
+import { RegisterComponent } from './register.component';
+import { VerifyEmailComponent } from './verify-email.component';
+import { ForgotPasswordComponent } from './forgot-password.component';
+import { ResetPasswordComponent } from './reset-password.component';
 
 const routes: Routes = [
-    { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-    { 
-        path: 'admin', 
-        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
-        canActivate: [AuthGuard],
-        data: { roles: [Role.Admin] }  // ← ADD THIS LINE
-    },
-    { path: 'profile', loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule), canActivate: [AuthGuard] },
-    { path: 'account', loadChildren: () => import('./account/account.module').then(m => m.AccountModule) },
-    { path: '**', redirectTo: '' }
+    {
+        path: '',
+        component: LayoutComponent,
+        children: [
+            { path: 'login', component: LoginComponent },
+            { path: 'register', component: RegisterComponent },
+            { path: 'verify-email', component: VerifyEmailComponent },
+            { path: 'forgot-password', component: ForgotPasswordComponent },
+            { path: 'reset-password', component: ResetPasswordComponent },
+            { path: '', redirectTo: 'login', pathMatch: 'full' }
+        ]
+    }
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AccountRoutingModule { }
