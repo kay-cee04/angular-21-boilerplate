@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AlertComponent } from './_components';
 import { HomeComponent } from './home/home.component';
-import { appInitializer, JwtInterceptor, ErrorInterceptor, fakeBackendProvider } from './_helpers';
+import { appInitializer, JwtInterceptor, ErrorInterceptor } from './_helpers';  // ← Removed fakeBackendProvider
 import { AccountService } from './_services';
 
 @NgModule({
@@ -26,7 +26,7 @@ import { AccountService } from './_services';
         { provide: APP_INITIALIZER, useFactory: appInitializer, deps: [AccountService], multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        fakeBackendProvider
+        // fakeBackendProvider  ← REMOVED or COMMENTED OUT
     ],
     bootstrap: [AppComponent]
 })
