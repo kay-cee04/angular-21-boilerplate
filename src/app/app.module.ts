@@ -23,10 +23,10 @@ import { AccountService } from './_services';
         HomeComponent
     ],
     providers: [
-        { provide: APP_INITIALIZER, useFactory: appInitializer, deps: [AccountService], multi: true },
+        { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AccountService] },
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        // fakeBackendProvider  ← REMOVED or COMMENTED OUT
+        // fakeBackendProvider  ← MUST BE COMMENTED OUT (or removed)
     ],
     bootstrap: [AppComponent]
 })
