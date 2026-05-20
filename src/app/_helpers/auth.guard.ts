@@ -14,9 +14,11 @@ export class AuthGuard implements CanActivate {
         const account = this.accountService.accountValue;
         
         if (account) {
-            // ✅ FIX: Use optional chaining to prevent 'scope' error
-            const requiredRoles = route.data?.['roles'];
-            if (requiredRoles && requiredRoles.length && !requiredRoles.includes(account.role)) {
+            // ✅ SAFE: Check if route.data exists before accessing
+            const routeData = route.data || {};
+            const requiredRoles = routeData['roles'];
+            
+            if (requiredRoles && requiredRoles.length > 0 && !requiredRoles.includes(account.role)) {
                 this.router.navigate(['/']);
                 return false;
             }
