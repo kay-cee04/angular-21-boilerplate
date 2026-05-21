@@ -24,24 +24,17 @@ export class AlertComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        // subscribe to new alert notifications
-        this.alertSubscription = this.alertService.onAlert(this.id)
-            .subscribe(alert => {
-                // clear alerts when an empty alert is received
-                if (!alert.message) {
-                    this.alerts = this.alerts.filter(x => x.keepAfterRouteChange);
-                    this.alerts.forEach(x => delete x.keepAfterRouteChange);
-                    this.scheduleDetectChanges();
-                    return;
-                }
-
-                this.alerts.push(alert);
-                this.scheduleDetectChanges();
-
-                if (alert.autoClose) {
-                    setTimeout(() => this.removeAlert(alert), 3000);
-                }
-            });
+    this.alertSubscription = this.alertService.onAlert(this.id)
+        .subscribe(alert => {
+            if (!alert.message) {
+                this.alerts = this.alerts.filter(x => x.keepAfterRouteChange);
+                return;
+            }
+            this.alerts.push(alert);
+            if (alert.autoClose) {
+                setTimeout(() => this.removeAlert(alert), 5000);
+            }
+        });
 
         // clear alerts on location change
         this.routeSubscription = this.router.events.subscribe(event => {
