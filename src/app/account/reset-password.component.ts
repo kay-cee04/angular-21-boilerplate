@@ -30,20 +30,38 @@ export class ResetPasswordComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        // Get token from URL query params
         this.token = this.route.snapshot.queryParams['token'];
+        
+        console.log('Token from URL:', this.token);
 
-        this.form = this.formBuilder.group({
-            password: ['', [Validators.required, Validators.minLength(6)]],
-            confirmPassword: ['', Validators.required]
-        }, {
-            validators: [MustMatch('password', 'confirmPassword')]
-        });
+        if (!this.token) {
+            this.tokenStatus = TokenStatus.Invalid;
+            this.alertService.error('No reset token provided');
+            return;
+        }
 
+        // Validate the token
         this.accountService.validateResetToken(this.token)
             .pipe(first())
             .subscribe({
-                next: () => { this.tokenStatus = TokenStatus.Valid; },
-                error: () => { this.tokenStatus = TokenStatus.Invalid; }
+                next: () => {
+                    console.log('Token is valid');
+                    this.tokenStatus = TokenStatus.Valid;
+                    
+                    // Initialize form after token is validated
+                    this.form = this.formBuilder.group({
+                        password: ['', [Validators.required, Validators.minLength(6)]],
+                        confirmPassword: ['', Validators.required]
+                    }, {
+                        validators: [MustMatch('password', 'confirmPassword')]
+                    });
+                },
+                error: (error) => {
+                    console.error('Token validation failed:', error);
+                    this.tokenStatus = TokenStatus.Invalid;
+                    this.alertService.error(error);
+                }
             });
     }
 
@@ -64,9 +82,11 @@ export class ResetPasswordComponent implements OnInit {
             .subscribe({
                 next: () => {
                     this.alertService.success('Password reset successful, you can now login', { keepAfterRouteChange: true });
-                    this.router.navigate(['../login'], { relativeTo: this.route });
+                    this.router.navigate(['/account/login']);
                 },
-                error: error => this.alertService.error(error)
+                error: error => {
+                    this.alertService.error(error);
+                }
             });
     }
 }
