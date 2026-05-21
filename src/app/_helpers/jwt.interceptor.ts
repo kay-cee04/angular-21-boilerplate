@@ -13,7 +13,7 @@ export class JwtInterceptor implements HttpInterceptor {
         const isLoggedIn = account && account.jwtToken;
         const isApiUrl = request.url.startsWith(environment.apiUrl);
 
-        // ✅ Add token ONLY for API requests AND if user is logged in
+        // ✅ Skip adding token for public endpoints
         if (isLoggedIn && isApiUrl && !this.isPublicEndpoint(request.url)) {
             request = request.clone({
                 setHeaders: { Authorization: `Bearer ${account.jwtToken}` }

@@ -11,14 +11,30 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
+            // ✅ Only logout if user was logged in and got 401/403
             if ([401, 403].includes(err.status) && this.accountService.accountValue) {
-                // auto logout if 401 or 403 response returned from api
-                this.accountService.logout();
+                // Check if this is a public endpoint - don't logout
+                const isPublicEndpoint = this.isPublicEndpoint(request.url);
+                if (!isPublicEndpoint) {
+                    this.accountService.logout();
+                }
             }
 
             const error = (err && err.error && err.error.message) || err.statusText;
-            console.error(err);
             return throwError(() => error);
-        }))
+        }));
+    }
+
+    private isPublicEndpoint(url: string): boolean {
+        const publicEndpoints = [
+            '/accounts/register',
+            '/accounts/authenticate',
+            '/accounts/refresh-token',
+            '/accounts/verify-email',
+            '/accounts/forgot-password',
+            '/accounts/validate-reset-token',
+            '/accounts/reset-password'
+        ];
+        return publicEndpoints.some(endpoint => url.includes(endpoint));
     }
 }
