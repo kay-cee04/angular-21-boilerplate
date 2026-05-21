@@ -2,13 +2,12 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AlertComponent } from './_components';
 import { HomeComponent } from './home/home.component';
-import { appInitializer, JwtInterceptor, ErrorInterceptor } from './_helpers';
+import { appInitializer, JwtInterceptor, ErrorInterceptor, fakeBackendProvider } from './_helpers';
 import { AccountService } from './_services';
 
 @NgModule({
@@ -16,7 +15,6 @@ import { AccountService } from './_services';
         BrowserModule,
         ReactiveFormsModule,
         HttpClientModule,
-        RouterModule,
         AppRoutingModule
     ],
     declarations: [
@@ -25,10 +23,11 @@ import { AccountService } from './_services';
         HomeComponent
     ],
     providers: [
-        // ✅ COMMENT OUT appInitializer temporarily
-        // { provide: APP_INITIALIZER, useFactory: appInitializer, deps: [AccountService], multi: true },
+        { provide: APP_INITIALIZER, useFactory: appInitializer, deps: [AccountService], multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        // ❌ COMMENT THIS OUT - DISABLE FAKE BACKEND
+        // fakeBackendProvider
     ],
     bootstrap: [AppComponent]
 })
