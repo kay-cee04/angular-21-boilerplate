@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first, finalize } from 'rxjs/operators';
@@ -26,7 +26,8 @@ export class ResetPasswordComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private accountService: AccountService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private cdr: ChangeDetectorRef
     ) { }
 
     ngOnInit() {
@@ -38,6 +39,7 @@ export class ResetPasswordComponent implements OnInit {
         if (!this.token) {
             this.tokenStatus = TokenStatus.Invalid;
             this.alertService.error('No reset token provided');
+            this.cdr.detectChanges();
             return;
         }
 
@@ -46,32 +48,36 @@ export class ResetPasswordComponent implements OnInit {
             .pipe(first())
             .subscribe({
                 next: () => {
-                    console.log('Token is valid');
-                    this.tokenStatus = TokenStatus.Valid;
+                    console.log('Token is valid - initializing form');
                     
-                    // Initialize form after token is validated
+                    // Initialize form
                     this.form = this.formBuilder.group({
                         password: ['', [Validators.required, Validators.minLength(6)]],
                         confirmPassword: ['', Validators.required]
                     }, {
                         validators: [MustMatch('password', 'confirmPassword')]
                     });
+                    
+                    this.tokenStatus = TokenStatus.Valid;
+                    console.log('Form initialized, tokenStatus =', this.tokenStatus);
+                    this.cdr.detectChanges();
                 },
                 error: (error) => {
                     console.error('Token validation failed:', error);
                     this.tokenStatus = TokenStatus.Invalid;
                     this.alertService.error(error);
+                    this.cdr.detectChanges();
                 }
             });
     }
 
-    get f() { return this.form.controls; }
+    get f() { return this.form?.controls || {}; }
 
     onSubmit() {
         this.submitted = true;
         this.alertService.clear();
 
-        if (this.form.invalid) {
+        if (!this.form || this.form.invalid) {
             return;
         }
 
