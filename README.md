@@ -1,59 +1,71 @@
-# Angular21Boilerplate
+# Angular 21 Authentication Boilerplate
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.10.
+[![Deployed on Render](https://img.shields.io/badge/Deployed%20on-Render-blue)](https://angular-21-boilerplate-sjzs.onrender.com)
+[![Backend API](https://img.shields.io/badge/Backend-Node.js%20%7C%20MySQL-green)](https://node-mysql-api-zfzj.onrender.com)
 
-## Development server
+A complete authentication system built with Angular 21. Features email sign-up with verification, JWT authentication with refresh tokens, role-based access control (Admin/User), forgot/reset password, and profile management.
 
-To start a local development server, run:
+## 🚀 Live Application
 
+| Service | URL |
+|---------|-----|
+| **Frontend App** | [https://angular-21-boilerplate-sjzs.onrender.com](https://angular-21-boilerplate-sjzs.onrender.com) |
+| **Backend API** | [https://node-mysql-api-zfzj.onrender.com](https://node-mysql-api-zfzj.onrender.com) |
+| **API Documentation** | [https://node-mysql-api-zfzj.onrender.com/api-docs](https://node-mysql-api-zfzj.onrender.com/api-docs) |
+
+## ✨ Features
+
+- Email Sign Up with Verification
+- JWT Authentication with Refresh Tokens
+- Role-Based Authorization (User & Admin)
+- Forgot Password & Reset Password
+- View and Update My Profile
+- Admin Section for Managing All Accounts
+- Auto-refresh JWT token before expiry
+- HTTP-Only Cookies for refresh tokens
+- Bootstrap 5 Styling
+
+## 👥 Roles
+
+| Role | Access |
+|------|--------|
+| **Admin** | Full access to admin panel + manage all accounts |
+| **User** | Can only update own profile |
+
+> **Note:** The first account registered becomes Admin. All subsequent accounts are Users.
+
+## 🛠️ Tech Stack
+
+| Technology | Purpose |
+|------------|---------|
+| Angular 21 | Frontend framework |
+| TypeScript | Type-safe JavaScript |
+| RxJS | Reactive programming |
+| Bootstrap 5 | UI styling |
+| JWT | Authentication tokens |
+
+## 🏗️ Project Structure
+src/app/
+├── _components/ # Reusable components (Alert)
+├── _helpers/ # Guards, interceptors, validators
+├── _models/ # TypeScript interfaces/enums
+├── _services/ # API services (Account, Alert)
+├── account/ # Auth pages (login, register, verify, forgot, reset)
+├── admin/ # Admin dashboard + account management
+├── profile/ # User profile (view, update)
+└── home/ # Home page after login
+
+
+## 🚀 How to Run Locally
+
+### Prerequisites
+- Node.js (v20.x or higher)
+- Angular CLI
+
+### Installation
+
+1. Clone the repository
 ```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+git clone https://github.com/kay-cee04/angular-21-boilerplate.git
+cd angular-21-boilerplate
+npm install

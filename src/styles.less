@@ -1,18 +1,353 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
-.app-container {
-    min-height: 320px;
+/* ========================================
+   CUSTOM COLOR VARIABLES
+   ======================================== */
+
+:root {
+    --primary-color: #6366f1;      /* Indigo - unique but professional */
+    --primary-dark: #4f46e5;
+    --primary-light: #818cf8;
+    --secondary-color: #10b981;     /* Emerald green accent */
+    --bg-light: #f8fafc;
+    --bg-white: #ffffff;
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
 }
 
-.admin-nav {
-    padding-top: 0;
-    padding-bottom: 0;
-    background-color: #e8e9ea;
-    border-bottom: 1px solid #ccc;
+/* ========================================
+   GLOBAL STYLES
+   ======================================== */
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
+
+/* Container styling */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ========================================
+   CARD STYLING
+   ======================================== */
+
+.card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.15);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    border: none;
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.card-body {
+    padding: 2rem;
+    background: var(--bg-white);
+}
+
+/* ========================================
+   FORM STYLES
+   ======================================== */
+
+.form-label {
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.form-control, .form-select {
+    border: 1.5px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease;
+    background-color: var(--bg-white);
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    outline: none;
+}
+
+.form-check-input {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 4px;
+    border: 1.5px solid var(--border-color);
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* ========================================
+   BUTTON STYLES
+   ======================================== */
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 0.625rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+}
+
+.btn-link:hover {
+    color: var(--primary-dark);
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.btn-danger {
+    border-radius: 12px;
+    padding: 0.625rem 1.5rem;
+    background: #ef4444;
+    border: none;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+}
+
+/* ========================================
+   NAVIGATION / NAVBAR
+   ======================================== */
+
+.navbar {
+    background: var(--bg-white) !important;
+    box-shadow: var(--shadow-sm);
+    padding: 0.75rem 0;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    color: var(--primary-color) !important;
+}
+
+.nav-link {
+    color: var(--text-dark) !important;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    border-radius: 8px;
+    margin: 0 0.25rem;
+}
+
+.nav-link:hover {
+    color: var(--primary-color) !important;
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.nav-link.active {
+    color: var(--primary-color) !important;
+    background: rgba(99, 102, 241, 0.1);
+}
+
+/* Admin Sub Navigation */
+.admin-nav {
+    background: var(--bg-white);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.admin-nav .nav-link {
+    padding: 0.5rem 1rem;
+}
+
+.admin-nav .nav-link.active {
+    background: var(--primary-color);
+    color: white !important;
+}
+
+/* ========================================
+   TABLE STYLES
+   ======================================== */
+
+.table {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background: var(--bg-light);
+    color: var(--text-dark);
+    font-weight: 600;
+    border-bottom: 2px solid var(--border-color);
+    padding: 1rem;
+}
+
+.table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-color: var(--border-color);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: var(--bg-light);
+}
+
+/* ========================================
+   ALERT / TOAST STYLES
+   ======================================== */
+
+.alert {
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.alert-success {
+    background: #10b981;
+    color: white;
+}
+
+.alert-danger {
+    background: #ef4444;
+    color: white;
+}
+
+.alert-info {
+    background: #3b82f6;
+    color: white;
+}
+
+.alert-warning {
+    background: #f59e0b;
+    color: white;
+}
+
+/* ========================================
+   PROFILE PAGE
+   ======================================== */
 
 .btn-delete-account {
-    width: 40px;
+    width: auto;
     text-align: center;
     box-sizing: content-box;
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+
+@media (max-width: 768px) {
+    .card-header {
+        padding: 1rem;
+    }
+    
+    .card-body {
+        padding: 1.25rem;
+    }
+    
+    .btn-primary, .btn-danger {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .btn-link {
+        text-align: center;
+        display: inline-block;
+    }
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* ========================================
+   APP CONTAINER
+   ======================================== */
+
+.app-container {
+    min-height: 320px;
+    padding: 1rem;
+}
+
+/* ========================================
+   SPINNER / LOADING
+   ======================================== */
+
+.spinner-border {
+    border-width: 0.2rem;
+}
+
+/* ========================================
+   CUSTOM SCROLLBAR
+   ======================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-light);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-light);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
 }
