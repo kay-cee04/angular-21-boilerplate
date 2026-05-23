@@ -23,11 +23,9 @@ import { AccountService } from './_services';
         HomeComponent
     ],
     providers: [
-        { provide: APP_INITIALIZER, useFactory: appInitializer, deps: [AccountService], multi: true },
+        // { provide: APP_INITIALIZER, useFactory: appInitializer, deps: [AccountService], multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        // ❌ MAKE SURE THIS LINE IS GONE OR COMMENTED OUT
-        // fakeBackendProvider
     ],
     bootstrap: [AppComponent]
 })

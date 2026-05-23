@@ -1,19 +1,20 @@
 <h3 class="card-header">Register</h3>
 <div class="card-body">
     
-    <!-- Success Popup - Auto fades after 5 seconds -->
-    <div *ngIf="showSuccessPopup" class="alert alert-success alert-dismissible fade show" role="alert">
+    <!-- Success Message -->
+    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>✅ Success!</strong> {{successMessage}}
-        <button type="button" class="btn-close" (click)="hideSuccessPopup()"></button>
+        <button type="button" class="btn-close" (click)="successMessage = ''"></button>
     </div>
     
-    <!-- Error Popup - Auto fades after 5 seconds -->
-    <div *ngIf="showErrorPopup" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>❌ Error!</strong> {{errorMessage}}
-        <button type="button" class="btn-close" (click)="hideErrorPopup()"></button>
+        <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
     </div>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <!-- Your existing form fields here -->
         <div class="row">
             <div class="mb-3 col-2">
                 <label class="form-label">Title</label>

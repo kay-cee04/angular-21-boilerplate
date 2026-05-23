@@ -12,9 +12,7 @@ export class RegisterComponent implements OnInit {
     submitting = false;
     submitted = false;
     successMessage = '';
-    showSuccessPopup = false;
     errorMessage = '';
-    showErrorPopup = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -39,37 +37,18 @@ export class RegisterComponent implements OnInit {
 
     get f() { return this.form.controls; }
 
-    showSuccessAlert(message: string) {
-        this.successMessage = message;
-        this.showSuccessPopup = true;
-        
-        // Auto fade after 5 seconds
+    clearMessages() {
         setTimeout(() => {
-            this.showSuccessPopup = false;
+            this.successMessage = '';
+            this.errorMessage = '';
         }, 5000);
-    }
-
-    showErrorAlert(message: string) {
-        this.errorMessage = message;
-        this.showErrorPopup = true;
-        
-        // Auto fade after 5 seconds
-        setTimeout(() => {
-            this.showErrorPopup = false;
-        }, 5000);
-    }
-
-    hideSuccessPopup() {
-        this.showSuccessPopup = false;
-    }
-
-    hideErrorPopup() {
-        this.showErrorPopup = false;
     }
 
     onSubmit() {
         this.submitted = true;
         this.alertService.clear();
+        this.successMessage = '';
+        this.errorMessage = '';
 
         if (this.form.invalid) {
             return;
@@ -81,27 +60,22 @@ export class RegisterComponent implements OnInit {
             .subscribe({
                 next: () => {
                     const email = this.form.value.email;
-                    const message = `✅ Registration successful! A verification email has been sent to ${email}. Please check your inbox and click the verification link to activate your account.`;
-                    
-                    // Show success popup
-                    this.showSuccessAlert(message);
-                    
-                    // Also show alert service message
-                    this.alertService.success(message, { keepAfterRouteChange: true, autoClose: true });
+                    this.successMessage = `✅ Registration successful! A verification email has been sent to ${email}. Please check your inbox and click the verification link to activate your account.`;
+                    this.clearMessages();
                     
                     // Reset form
                     this.form.reset();
                     this.submitted = false;
                     this.submitting = false;
                     
-                    // Optional: Redirect to login after 5 seconds
+                    // Redirect after 5 seconds
                     setTimeout(() => {
                         this.router.navigate(['/account/login']);
                     }, 5000);
                 },
                 error: error => {
-                    this.showErrorAlert(error || 'Registration failed. Please try again.');
-                    this.alertService.error(error);
+                    this.errorMessage = error || 'Registration failed. Please try again.';
+                    this.clearMessages();
                     this.submitting = false;
                 }
             });
