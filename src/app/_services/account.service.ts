@@ -114,7 +114,7 @@ export class AccountService {
     private refreshTokenTimeout?: any;
 
     private startRefreshTokenTimer() {
-        // ✅ Check if accountValue and jwtToken exist before proceeding
+        // Check if accountValue and jwtToken exist before proceeding
         if (!this.accountValue || !this.accountValue.jwtToken) {
             console.warn('Cannot start refresh token timer: no account or token');
             return;
@@ -132,7 +132,7 @@ export class AccountService {
             const expires = new Date(jwtToken.exp * 1000);
             const timeout = expires.getTime() - Date.now() - (60 * 1000);
             
-            // ✅ Only set timeout if positive
+            // Only set timeout if positive
             if (timeout > 0) {
                 this.refreshTokenTimeout = setTimeout(() => {
                     this.refreshToken().subscribe({

@@ -9,6 +9,8 @@ export class ForgotPasswordComponent implements OnInit {
     form!: FormGroup;
     loading = false;
     submitted = false;
+    successMessage = '';
+    errorMessage = '';
 
     constructor(
         private formBuilder: FormBuilder,
@@ -26,22 +28,37 @@ export class ForgotPasswordComponent implements OnInit {
 
     onSubmit() {
         this.submitted = true;
-
-        // reset alerts on submit
         this.alertService.clear();
+        this.successMessage = '';
+        this.errorMessage = '';
 
-        // stop here if form is invalid
+        // Stop if form is invalid
         if (this.form.invalid) {
             return;
         }
 
         this.loading = true;
+        
         this.accountService.forgotPassword(this.f['email'].value)
             .pipe(first())
             .pipe(finalize(() => this.loading = false))
             .subscribe({
-                next: () => this.alertService.success('Please check your email for password reset instructions'),
-                error: error => this.alertService.error(error)
+                next: () => {
+                    // Show success message
+                    this.successMessage = `📧 Password reset instructions have been sent to ${this.f['email'].value}. Please check your email (including spam folder) and follow the link to reset your password.`;
+                    
+                    // Also show alert service message
+                    this.alertService.success(this.successMessage, { keepAfterRouteChange: true, autoClose: false });
+                    
+                    // Reset form
+                    this.form.reset();
+                    this.submitted = false;
+                },
+                error: (error) => {
+                    // Show error message
+                    this.errorMessage = error || 'An error occurred. Please try again later.';
+                    this.alertService.error(this.errorMessage);
+                }
             });
     }
 }
