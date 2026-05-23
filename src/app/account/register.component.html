@@ -1,6 +1,13 @@
 <h3 class="card-header">Register</h3>
 <div class="card-body">
+    <!-- Success Alert -->
+    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> {{successMessage}}
+        <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+    </div>
+
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <!-- Your existing form fields -->
         <div class="row">
             <div class="mb-3 col-2">
                 <label class="form-label">Title</label>
@@ -66,7 +73,7 @@
                 <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
                 Register
             </button>
-            <a routerLink="../login" href="" class="btn btn-link">Cancel</a>
+            <a routerLink="../login" class="btn btn-link">Cancel</a>
         </div>
     </form>
 </div>

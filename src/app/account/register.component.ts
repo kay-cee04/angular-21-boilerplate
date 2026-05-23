@@ -11,6 +11,7 @@ export class RegisterComponent implements OnInit {
     form!: FormGroup;
     submitting = false;
     submitted = false;
+    successMessage = '';  // Add this for custom success message
 
     constructor(
         private formBuilder: FormBuilder,
@@ -38,6 +39,7 @@ export class RegisterComponent implements OnInit {
     onSubmit() {
         this.submitted = true;
         this.alertService.clear();
+        this.successMessage = '';  // Clear previous message
 
         if (this.form.invalid) {
             return;
@@ -48,9 +50,19 @@ export class RegisterComponent implements OnInit {
             .pipe(first())
             .subscribe({
                 next: () => {
-                    this.alertService.success('Registration successful, please check your email for verification instructions', { keepAfterRouteChange: true });
-                    // ✅ Fixed: use this.router (not this.route)
-                    this.router.navigate(['/account/login']);
+                    // Show success message with email verification instructions
+                    this.alertService.success(
+                        `✅ Registration successful! A verification email has been sent to ${this.form.value.email}. 
+                        Please check your inbox and click the verification link to activate your account.`,
+                        { keepAfterRouteChange: true, autoClose: false }
+                    );
+                    
+                    // Optional: Redirect to login after 5 seconds
+                    setTimeout(() => {
+                        this.router.navigate(['/account/login']);
+                    }, 5000);
+                    
+                    this.submitting = false;
                 },
                 error: error => {
                     this.alertService.error(error);
