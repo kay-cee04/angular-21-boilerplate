@@ -10,7 +10,9 @@ export class ForgotPasswordComponent implements OnInit {
     loading = false;
     submitted = false;
     successMessage = '';
+    showSuccessPopup = false;
     errorMessage = '';
+    showErrorPopup = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -26,13 +28,28 @@ export class ForgotPasswordComponent implements OnInit {
 
     get f() { return this.form.controls; }
 
+    showSuccessAlert(message: string) {
+        this.successMessage = message;
+        this.showSuccessPopup = true;
+        
+        setTimeout(() => {
+            this.showSuccessPopup = false;
+        }, 5000);
+    }
+
+    showErrorAlert(message: string) {
+        this.errorMessage = message;
+        this.showErrorPopup = true;
+        
+        setTimeout(() => {
+            this.showErrorPopup = false;
+        }, 5000);
+    }
+
     onSubmit() {
         this.submitted = true;
         this.alertService.clear();
-        this.successMessage = '';
-        this.errorMessage = '';
 
-        // Stop if form is invalid
         if (this.form.invalid) {
             return;
         }
@@ -44,20 +61,16 @@ export class ForgotPasswordComponent implements OnInit {
             .pipe(finalize(() => this.loading = false))
             .subscribe({
                 next: () => {
-                    // Show success message
-                    this.successMessage = `📧 Password reset instructions have been sent to ${this.f['email'].value}. Please check your email (including spam folder) and follow the link to reset your password.`;
-                    
-                    // Also show alert service message
-                    this.alertService.success(this.successMessage, { keepAfterRouteChange: true, autoClose: false });
-                    
-                    // Reset form
+                    const message = `📧 Password reset instructions have been sent to ${this.f['email'].value}. Please check your email (including spam folder).`;
+                    this.showSuccessAlert(message);
+                    this.alertService.success(message, { keepAfterRouteChange: true, autoClose: true });
                     this.form.reset();
                     this.submitted = false;
                 },
                 error: (error) => {
-                    // Show error message
-                    this.errorMessage = error || 'An error occurred. Please try again later.';
-                    this.alertService.error(this.errorMessage);
+                    const message = error || 'An error occurred. Please try again later.';
+                    this.showErrorAlert(message);
+                    this.alertService.error(message);
                 }
             });
     }
